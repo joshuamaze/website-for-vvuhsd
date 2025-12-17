@@ -59,34 +59,10 @@ const Navigation = ({ currentTab, setTab }: { currentTab: string, setTab: (t: st
 const App = () => {
   const [currentTab, setCurrentTab] = useState(TabView.HOME);
 
-  return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-gray-900 font-sans">
-      <Navigation currentTab={currentTab} setTab={setCurrentTab} />
-      <main className="flex-grow animate-fadeIn">
-        {currentTab === TabView.HOME && (
-          <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 text-center">
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-gray-900 mb-6 tracking-tight">
-              Equipping Students for a <br />
-              <span className="gradient-text">Future with AI</span>
-            </h1>
-            <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto mb-10">
-              Moving from "Autopilot" to "Pilot". A comprehensive guide for teachers to foster ethical, equitable, and proficient AI usage.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
-              <button onClick={() => setCurrentTab(TabView.PILLARS)} className="bg-pilot-blue text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl hover:bg-blue-700 transition-all flex items-center justify-center">
-                Explore 3 Pillars <ArrowRight className="ml-2" size={18} />
-              </button>
-              <button onClick={() => setCurrentTab(TabView.TOOLS)} className="border-2 border-gray-200 px-8 py-4 rounded-xl font-bold bg-white text-gray-700 hover:bg-gray-50 transition-all">
-                Teacher Tools
-              </button>
-            </div>
-            <div className="max-w-4xl mx-auto aspect-video rounded-3xl overflow-hidden shadow-2xl border-8 border-white bg-gray-900">
-              <iframe className="w-full h-full" src="https://www.youtube.com/embed/5VJj9hkUQe4" title="AI Video" frameBorder="0" allowFullScreen></iframe>
-            </div>
-          </div>
-        )}
-
-        {currentTab === TabView.PILLARS && (
+  const renderContent = () => {
+    switch (currentTab) {
+      case TabView.PILLARS:
+        return (
           <div className="max-w-7xl mx-auto px-4 py-12">
             <h2 className="text-4xl font-display font-bold text-center mb-16">The 3 Pillars for Success</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -106,9 +82,9 @@ const App = () => {
                </div>
             </div>
           </div>
-        )}
-
-        {currentTab === TabView.ETHICAL_USE && (
+        );
+      case TabView.ETHICAL_USE:
+        return (
           <div className="max-w-5xl mx-auto px-4 py-12">
              <div className="bg-blue-600 rounded-3xl p-8 text-center text-white shadow-xl mb-16">
                 <h2 className="text-3xl font-display font-bold uppercase mb-2">Ethical AI Use</h2>
@@ -125,9 +101,9 @@ const App = () => {
                 </div>
              </div>
           </div>
-        )}
-
-        {currentTab === TabView.AI_PROTOCOL && (
+        );
+      case TabView.AI_PROTOCOL:
+        return (
           <div className="max-w-5xl mx-auto px-4 py-12">
              <h2 className="text-4xl font-display font-bold text-center mb-12 uppercase tracking-tighter">The AI Protocol</h2>
              <img src="https://drive.google.com/thumbnail?id=1Y8uy_8YqFkYTQdZUPXhxek_MTFD8hWxe&sz=w1200" className="rounded-3xl shadow-2xl mb-16 w-full border-4 border-white" alt="AI Protocol" />
@@ -136,7 +112,7 @@ const App = () => {
                   { id: '1', t: 'Prompt Smart', i: MousePointerClick, d: "Demand understanding, not just answers.", c: 'bg-blue-600' },
                   { id: '2', t: 'Investigate', i: Search, d: "AI can hallucinate. Verify everything.", c: 'bg-amber-500' },
                   { id: '3', t: 'Learn Logic', i: HelpCircle, d: "Focus on the why, not the what.", c: 'bg-purple-600' },
-                  { id: '4', t: 'Own It', i: PenTool, d: "Use your own voice for final drafts.", c: 'bg-green-600' },
+                  { id: '4', t: 'Own It', i: PenTool, d: "Close the tab. Use your own voice for final drafts.", c: 'bg-green-600' },
                   { id: '5', t: 'Test Solo', i: ClipboardCheck, d: "Ensure you can perform without the AI.", c: 'bg-red-600' }
                 ].map(s => {
                   const StepIcon = s.i;
@@ -152,9 +128,9 @@ const App = () => {
                 })}
              </div>
           </div>
-        )}
-
-        {currentTab === TabView.TOOLS && (
+        );
+      case TabView.TOOLS:
+        return (
           <div className="max-w-6xl mx-auto px-4 py-12">
             <div className="bg-indigo-600 p-8 rounded-3xl text-white flex flex-col md:flex-row items-center justify-between mb-12 shadow-xl">
                <div><h3 className="text-2xl font-bold flex items-center gap-2"><FolderOpen /> Digital Resource Drive</h3><p className="text-indigo-100">Posters, handouts, and teacher materials.</p></div>
@@ -181,7 +157,38 @@ const App = () => {
                <iframe src="http://aiapps.vvuhsd.org/" className="w-full h-full border-0" title="District AI Hub" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
             </div>
           </div>
-        )}
+        );
+      default:
+        return (
+          <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 text-center">
+            <h1 className="text-4xl md:text-6xl font-display font-bold text-gray-900 mb-6 tracking-tight">
+              Equipping Students for a <br />
+              <span className="gradient-text">Future with AI</span>
+            </h1>
+            <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto mb-10">
+              Moving from "Autopilot" to "Pilot". A comprehensive guide for teachers to foster ethical, equitable, and proficient AI usage.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
+              <button onClick={() => setCurrentTab(TabView.PILLARS)} className="bg-pilot-blue text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl hover:bg-blue-700 transition-all flex items-center justify-center">
+                Explore 3 Pillars <ArrowRight className="ml-2" size={18} />
+              </button>
+              <button onClick={() => setCurrentTab(TabView.TOOLS)} className="border-2 border-gray-200 px-8 py-4 rounded-xl font-bold bg-white text-gray-700 hover:bg-gray-50 transition-all">
+                Teacher Tools
+              </button>
+            </div>
+            <div className="max-w-4xl mx-auto aspect-video rounded-3xl overflow-hidden shadow-2xl border-8 border-white bg-gray-900">
+              <iframe className="w-full h-full" src="https://www.youtube.com/embed/5VJj9hkUQe4" title="AI Video" frameBorder="0" allowFullScreen></iframe>
+            </div>
+          </div>
+        );
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col bg-slate-50 text-gray-900 font-sans">
+      <Navigation currentTab={currentTab} setTab={setCurrentTab} />
+      <main className="flex-grow animate-fadeIn">
+        {renderContent()}
       </main>
       <footer className="bg-white border-t py-12 text-center text-gray-400 text-sm">
         <p>&copy; {new Date().getFullYear()} AI EduPilot. VVUHSD Framework.</p>
