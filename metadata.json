@@ -1,0 +1,9 @@
+{
+  "name": "Copy of AI VVUHSD: Teacher's Guide",
+  "description": "A comprehensive resource for educators to implement ethical, equitable, and proficient AI use in classrooms using the P.I.L.O.T. framework.",
+  "requestFramePermissions": [],
+  "deployment": {
+    "platform": "vercel",
+    "directory": "."
+  }
+}

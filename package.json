@@ -1,0 +1,15 @@
+
+{
+  "name": "ai-vvuhsd-teacher-guide",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A comprehensive resource for educators to implement ethical AI use.",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}

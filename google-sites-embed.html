@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI EduPilot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Space Grotesk', 'sans-serif'] },
+            colors: { 'pilot-blue': '#2563EB', 'pilot-purple': '#9333EA' }
+          }
+        }
+      }
+    </script>
+    <style>
+      body { background-color: #f8fafc; margin: 0; padding: 0; }
+      .gradient-text { background-clip: text; -webkit-background-clip: text; color: transparent; background-image: linear-gradient(to right, #2563EB, #9333EA); }
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      .animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- Load React and Lucide Icons -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide-react@latest"></script>
+
+    <script type="text/babel">
+        const { useState } = React;
+        const { 
+          Layout, Shield, BrainCircuit, Rocket, Scale, ArrowRight, ShieldCheck, Zap, Users, 
+          Lock, BookOpen, MessageSquare, HandHeart, Brain, Lightbulb, Timer, GraduationCap, School,
+          CheckCircle2, XCircle, AlertTriangle, FileText, Search, UserCheck, Skull, Copy, VenetianMask, 
+          EyeOff, Calculator, Download, MousePointerClick, PenTool, ClipboardCheck, ExternalLink, 
+          Sparkles, LayoutGrid, FolderOpen, HelpCircle, Award
+        } = LucideReact;
+
+        const TabView = { HOME: 'HOME', PILLARS: 'PILLARS', ETHICAL_USE: 'ETHICAL_USE', AI_PROTOCOL: 'AI_PROTOCOL', TOOLS: 'TOOLS' };
+        const driveLink = "https://drive.google.com/drive/folders/1JwplS15rtJyk8Eq3BAV-0xvjuhjBD1id?usp=sharing";
+        const certificationsLink = "https://edu.google.com/intl/ALL_us/learning-center/certifications/";
+        const logoUrl = "https://drive.google.com/thumbnail?id=1Uxyl8RlVy9N8BqNthfBZzLNa9GgDMD-l&sz=w400";
+
+        const Navigation = ({ currentTab, setTab }) => (
+          <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
+              <img src={logoUrl} alt="Logo" className="h-10 cursor-pointer" onClick={() => setTab(TabView.HOME)} />
+              <div className="flex space-x-2">
+                {[
+                  { id: TabView.HOME, label: 'Home', icon: Layout },
+                  { id: TabView.PILLARS, label: '3 Pillars', icon: Shield },
+                  { id: TabView.ETHICAL_USE, label: 'Ethical', icon: Scale },
+                  { id: TabView.AI_PROTOCOL, label: 'Protocol', icon: Rocket },
+                  { id: TabView.TOOLS, label: 'Tools', icon: BrainCircuit }
+                ].map(item => (
+                  <button key={item.id} onClick={() => setTab(item.id)} className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${currentTab === item.id ? 'bg-blue-50 text-pilot-blue' : 'text-gray-600 hover:bg-gray-50'}`}>
+                    <item.icon size={16} className="mr-1" />
+                    <span className="hidden md:inline">{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </nav>
+        );
+
+        const Hero = ({ setTab }) => (
+          <div className="text-center py-16 px-4">
+            <h1 className="text-5xl font-display font-bold text-gray-900 mb-6">Equipping Students for a <br/><span className="gradient-text">Future with AI</span></h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">Moving from "Autopilot" to "Pilot". A teacher's guide for ethical and proficient AI usage.</p>
+            <div className="flex justify-center gap-4">
+              <button onClick={() => setTab(TabView.PILLARS)} className="bg-pilot-blue text-white px-8 py-3 rounded-lg font-bold shadow-lg">Explore 3 Pillars</button>
+              <button onClick={() => setTab(TabView.TOOLS)} className="border-2 border-gray-200 px-8 py-3 rounded-lg font-bold bg-white">Teacher Tools</button>
+            </div>
+            <div className="mt-16 max-w-4xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-2xl bg-black">
+              <iframe className="w-full h-full" src="https://www.youtube.com/embed/5VJj9hkUQe4" frameBorder="0" allowFullScreen></iframe>
+            </div>
+          </div>
+        );
+
+        const App = () => {
+          const [currentTab, setCurrentTab] = useState(TabView.HOME);
+          return (
+            <div className="min-h-screen bg-slate-50">
+              <Navigation currentTab={currentTab} setTab={setCurrentTab} />
+              <div className="animate-fadeIn">
+                {currentTab === TabView.HOME && <Hero setTab={setCurrentTab} />}
+                {currentTab === TabView.PILLARS && (
+                  <div className="max-w-6xl mx-auto py-12 px-4 grid md:grid-cols-2 gap-8">
+                    <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-100">
+                        <h3 className="text-center font-bold mb-4 uppercase flex justify-center items-center gap-2"><School size={20}/> Educator Framework</h3>
+                        <img src="https://drive.google.com/thumbnail?id=1iMZAtETmezwwOlm9rQdD-Y0lGpvGhedg&sz=w1200" className="w-full rounded" />
+                    </div>
+                    <div className="bg-white p-4 rounded-xl shadow-lg border border-gray-100">
+                        <h3 className="text-center font-bold mb-4 uppercase flex justify-center items-center gap-2"><GraduationCap size={20}/> Student Guide</h3>
+                        <img src="https://drive.google.com/thumbnail?id=10N5NxD9Mc_6aWbB5WcUtB4yltRuy2YHh&sz=w1200" className="w-full rounded" />
+                    </div>
+                  </div>
+                )}
+                {currentTab === TabView.ETHICAL_USE && (
+                  <div className="max-w-4xl mx-auto py-12 px-4 text-center">
+                    <div className="bg-blue-600 text-white p-8 rounded-xl mb-8">
+                      <h2 className="text-3xl font-bold uppercase mb-2">Ethical Use Guide</h2>
+                      <p>Play Smart, Don't Cheat.</p>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-8">
+                       <div className="bg-white p-6 rounded shadow border">
+                          <img src="https://drive.google.com/thumbnail?id=1q7ZLXz_B1QVr0CbWnGNUvZt8lzxNnDlD&sz=w800" className="mb-4" />
+                          <a href="https://drive.google.com/file/d/1q7ZLXz_B1QVr0CbWnGNUvZt8lzxNnDlD/view" target="_blank" className="text-blue-600 font-bold">Download Teacher Guide</a>
+                       </div>
+                       <div className="bg-white p-6 rounded shadow border">
+                          <img src="https://drive.google.com/thumbnail?id=1x-ygYvKLprseRXqvQEs7VJelB4DDRU-9&sz=w800" className="mb-4" />
+                          <a href="https://drive.google.com/file/d/1x-ygYvKLprseRXqvQEs7VJelB4DDRU-9/view" target="_blank" className="text-blue-600 font-bold">Download Student Checklist</a>
+                       </div>
+                    </div>
+                  </div>
+                )}
+                {currentTab === TabView.AI_PROTOCOL && (
+                  <div className="max-w-4xl mx-auto py-12 px-4">
+                     <h2 className="text-center text-4xl font-bold mb-12">The AI Protocol</h2>
+                     <img src="https://drive.google.com/thumbnail?id=1Y8uy_8YqFkYTQdZUPXhxek_MTFD8hWxe&sz=w1200" className="rounded-xl shadow-2xl mb-8" />
+                     <div className="space-y-4">
+                        {[
+                          { id: 1, t: 'Prompt Smart', d: 'Demand understanding, not just answers.', c: 'bg-blue-600' },
+                          { id: 2, t: 'Investigate', d: 'Verify everything. AI can hallucinate.', c: 'bg-amber-500' },
+                          { id: 3, t: 'Learn Logic', d: 'Focus on the why, not the what.', c: 'bg-purple-600' },
+                          { id: 4, t: 'Own It', d: 'Use your own voice for final drafts.', c: 'bg-green-600' },
+                          { id: 5, t: 'Test Solo', d: 'Ensure you can perform without the AI.', c: 'bg-red-600' }
+                        ].map(s => (
+                          <div key={s.id} className="bg-white p-6 rounded-lg border flex items-center shadow-sm">
+                            <div className={`${s.c} text-white w-10 h-10 rounded-full flex items-center justify-center font-bold mr-4`}>{s.id}</div>
+                            <div><h4 className="font-bold">{s.t}</h4><p className="text-sm text-gray-500">{s.d}</p></div>
+                          </div>
+                        ))}
+                     </div>
+                  </div>
+                )}
+                {currentTab === TabView.TOOLS && (
+                  <div className="max-w-5xl mx-auto py-12 px-4">
+                    <div className="bg-indigo-600 text-white p-8 rounded-2xl flex flex-col md:flex-row justify-between items-center mb-12 shadow-lg">
+                      <div><h3 className="text-2xl font-bold">Digital Toolkit</h3><p className="text-indigo-100">High-res posters and handouts.</p></div>
+                      <a href={driveLink} target="_blank" className="bg-white text-indigo-600 px-6 py-2 rounded-lg font-bold mt-4 md:mt-0 flex items-center gap-2">Open Drive <ExternalLink size={16}/></a>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6">
+                       <div className="bg-white p-8 rounded-2xl shadow border text-center flex flex-col">
+                          <Sparkles size={40} className="mx-auto text-blue-600 mb-4" />
+                          <h3 className="font-bold text-lg mb-2">Classroom AI</h3>
+                          <p className="text-xs text-gray-500 mb-4 flex-grow">Google's native educator AI tools.</p>
+                          <a href="https://classroom.google.com/ai" target="_blank" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold">Visit Portal</a>
+                       </div>
+                       <div className="bg-white p-8 rounded-2xl shadow border text-center flex flex-col">
+                          <Award size={40} className="mx-auto text-purple-600 mb-4" />
+                          <h3 className="font-bold text-lg mb-2">Certifications</h3>
+                          <p className="text-xs text-gray-500 mb-4 flex-grow">Lead the way with Google Certs.</p>
+                          <a href={certificationsLink} target="_blank" className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-bold">View Path</a>
+                       </div>
+                       <div className="bg-white p-8 rounded-2xl shadow border text-center flex flex-col">
+                          <LayoutGrid size={40} className="mx-auto text-teal-600 mb-4" />
+                          <h3 className="font-bold text-lg mb-2">District Apps</h3>
+                          <p className="text-xs text-gray-500 mb-4 flex-grow">Approved local AI applications.</p>
+                          <a href="http://aiapps.vvuhsd.org/" target="_blank" className="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-bold">Open Hub</a>
+                       </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <footer className="py-12 border-t text-center text-gray-400 text-sm">
+                <p>&copy; 2024 AI EduPilot. VVUHSD Framework.</p>
+              </footer>
+            </div>
+          );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
