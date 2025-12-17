@@ -92,16 +92,16 @@ const App = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                <div className="space-y-4">
                   <h3 className="text-xl font-bold text-center uppercase tracking-tight flex items-center justify-center gap-2 text-pilot-blue"><School size={20}/> Educator Framework</h3>
-                  <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-100">
+                  <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-100 bg-white">
                     <img src="https://drive.google.com/thumbnail?id=1iMZAtETmezwwOlm9rQdD-Y0lGpvGhedg&sz=w1200" className="w-full" alt="Educator Framework" />
-                    <a href="https://drive.google.com/file/d/1iMZAtETmezwwOlm9rQdD-Y0lGpvGhedg/view" target="_blank" className="absolute bottom-4 right-4 bg-white/90 px-3 py-1 rounded text-xs font-bold text-gray-700 flex items-center gap-1">Open High-Res <ExternalLink size={12}/></a>
+                    <a href="https://drive.google.com/file/d/1iMZAtETmezwwOlm9rQdD-Y0lGpvGhedg/view" target="_blank" className="absolute bottom-4 right-4 bg-white/90 px-3 py-1 rounded text-xs font-bold text-gray-700 flex items-center gap-1 shadow-sm">Open High-Res <ExternalLink size={12}/></a>
                   </div>
                </div>
                <div className="space-y-4">
                   <h3 className="text-xl font-bold text-center uppercase tracking-tight flex items-center justify-center gap-2 text-pilot-purple"><GraduationCap size={20}/> Student Guide</h3>
-                  <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-100">
+                  <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-100 bg-white">
                     <img src="https://drive.google.com/thumbnail?id=10N5NxD9Mc_6aWbB5WcUtB4yltRuy2YHh&sz=w1200" className="w-full" alt="Student Guide" />
-                    <a href="https://drive.google.com/file/d/10N5NxD9Mc_6aWbB5WcUtB4yltRuy2YHh/view" target="_blank" className="absolute bottom-4 right-4 bg-white/90 px-3 py-1 rounded text-xs font-bold text-gray-700 flex items-center gap-1">Open High-Res <ExternalLink size={12}/></a>
+                    <a href="https://drive.google.com/file/d/10N5NxD9Mc_6aWbB5WcUtB4yltRuy2YHh/view" target="_blank" className="absolute bottom-4 right-4 bg-white/90 px-3 py-1 rounded text-xs font-bold text-gray-700 flex items-center gap-1 shadow-sm">Open High-Res <ExternalLink size={12}/></a>
                   </div>
                </div>
             </div>
@@ -117,11 +117,11 @@ const App = () => {
              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center">
                    <img src="https://drive.google.com/thumbnail?id=1q7ZLXz_B1QVr0CbWnGNUvZt8lzxNnDlD&sz=w800" className="mb-6 rounded-lg border w-full h-auto" alt="Teacher Guide" />
-                   <a href="https://drive.google.com/file/d/1q7ZLXz_B1qVr0CbWnGNUvZt8lzxNnDlD/view" target="_blank" className="bg-pilot-blue text-white w-full py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2">Download Teacher Guide <Download size={18}/></a>
+                   <a href="https://drive.google.com/file/d/1q7ZLXz_B1QVr0CbWnGNUvZt8lzxNnDlD/view" target="_blank" className="bg-pilot-blue text-white w-full py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors">Download Teacher Guide <Download size={18}/></a>
                 </div>
                 <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center">
                    <img src="https://drive.google.com/thumbnail?id=1x-ygYvKLprseRXqvQEs7VJelB4DDRU-9&sz=w800" className="mb-6 rounded-lg border w-full h-auto" alt="Student Checklist" />
-                   <a href="https://drive.google.com/file/d/1x-ygYvKLprseRXqvQEs7VJelB4DDRU-9/view" target="_blank" className="bg-pilot-blue text-white w-full py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2">Download Student Checklist <Download size={18}/></a>
+                   <a href="https://drive.google.com/file/d/1x-ygYvKLprseRXqvQEs7VJelB4DDRU-9/view" target="_blank" className="bg-pilot-blue text-white w-full py-3 rounded-xl font-bold text-center flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors">Download Student Checklist <Download size={18}/></a>
                 </div>
              </div>
           </div>
@@ -158,23 +158,23 @@ const App = () => {
           <div className="max-w-6xl mx-auto px-4 py-12">
             <div className="bg-indigo-600 p-8 rounded-3xl text-white flex flex-col md:flex-row items-center justify-between mb-12 shadow-xl">
                <div><h3 className="text-2xl font-bold flex items-center gap-2"><FolderOpen /> Digital Resource Drive</h3><p className="text-indigo-100">Posters, handouts, and teacher materials.</p></div>
-               <a href={driveLink} target="_blank" className="mt-6 md:mt-0 px-8 py-3 bg-white text-indigo-600 font-bold rounded-xl flex items-center gap-2">Open Drive <ExternalLink size={20}/></a>
+               <a href={driveLink} target="_blank" className="mt-6 md:mt-0 px-8 py-3 bg-white text-indigo-600 font-bold rounded-xl flex items-center gap-2 hover:bg-gray-100 transition-colors">Open Drive <ExternalLink size={20}/></a>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-               <div className="bg-white p-8 rounded-3xl shadow-lg border text-center flex flex-col hover:scale-105 transition-transform">
+               <div className="bg-white p-8 rounded-3xl shadow-lg border text-center flex flex-col hover:scale-105 transition-transform duration-300">
                   <Sparkles className="mx-auto text-blue-600 mb-4" size={48} />
                   <h3 className="text-xl font-bold mb-3">Google Classroom AI</h3>
-                  <a href="https://classroom.google.com/ai" target="_blank" className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl mt-auto">Visit Portal</a>
+                  <a href="https://classroom.google.com/ai" target="_blank" className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl mt-auto hover:bg-blue-700 transition-colors">Visit Portal</a>
                </div>
-               <div className="bg-white p-8 rounded-3xl shadow-lg border text-center flex flex-col hover:scale-105 transition-transform">
+               <div className="bg-white p-8 rounded-3xl shadow-lg border text-center flex flex-col hover:scale-105 transition-transform duration-300">
                   <Award className="mx-auto text-purple-600 mb-4" size={48} />
                   <h3 className="text-xl font-bold mb-3">Educator Certs</h3>
-                  <a href={certificationsLink} target="_blank" className="w-full py-3 bg-purple-600 text-white font-bold rounded-xl mt-auto">View Pathway</a>
+                  <a href={certificationsLink} target="_blank" className="w-full py-3 bg-purple-600 text-white font-bold rounded-xl mt-auto hover:bg-purple-700 transition-colors">View Pathway</a>
                </div>
-               <div className="bg-white p-8 rounded-3xl shadow-lg border text-center flex flex-col hover:scale-105 transition-transform">
+               <div className="bg-white p-8 rounded-3xl shadow-lg border text-center flex flex-col hover:scale-105 transition-transform duration-300">
                   <LayoutGrid className="mx-auto text-teal-600 mb-4" size={48} />
                   <h3 className="text-xl font-bold mb-3">District Apps Portal</h3>
-                  <a href="http://aiapps.vvuhsd.org/" target="_blank" className="w-full py-3 bg-teal-600 text-white font-bold rounded-xl mt-auto">Open Hub</a>
+                  <a href="http://aiapps.vvuhsd.org/" target="_blank" className="w-full py-3 bg-teal-600 text-white font-bold rounded-xl mt-auto hover:bg-teal-700 transition-colors">Open Hub</a>
                </div>
             </div>
             <div className="bg-white rounded-3xl shadow-2xl overflow-hidden aspect-[16/10] border-8 border-white">
