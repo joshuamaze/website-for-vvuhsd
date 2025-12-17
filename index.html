@@ -7,6 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <script>
+      // POLYFILL: Prevent ReferenceError: process is not defined
+      window.process = window.process || { env: {} };
+      
       tailwind.config = {
         theme: {
           extend: {
@@ -67,7 +70,16 @@
         const ui = document.getElementById('error-ui');
         if (ui) {
           ui.style.display = 'block';
-          ui.innerHTML = `<h1>Critical Deployment Error</h1><p>${msg}</p><pre>${error ? error.stack : ''}</pre>`;
+          ui.innerHTML = `
+            <div style="max-width: 600px; margin: auto; padding-top: 50px;">
+              <h1 style="color: #1e293b;">Application Error</h1>
+              <p style="color: #64748b;">The application failed to load. This is often due to a script resolution error.</p>
+              <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; border-left: 4px solid #ef4444;">
+                <code>${msg}</code>
+              </div>
+              <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer;">Reload Page</button>
+            </div>
+          `;
         }
       };
     </script>
