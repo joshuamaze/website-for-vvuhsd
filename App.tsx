@@ -5,20 +5,27 @@ import {
   Download, MousePointerClick, Search, PenTool, ClipboardCheck, 
   ExternalLink, Sparkles, LayoutGrid, FolderOpen, HelpCircle, Award,
   Lock, BookOpen, MessageSquare, HandHeart, Brain, Lightbulb, Timer,
-  CheckCircle2, XCircle, Calculator, UserCheck, EyeOff, VenetianMask, Skull
+  CheckCircle2, XCircle, Calculator, UserCheck, EyeOff, VenetianMask, Skull,
+  Loader2, Send
 } from 'lucide-react';
+import { GoogleGenAI } from "@google/genai";
 
+// --- Types ---
 const TabView = { 
   HOME: 'HOME', 
   PILLARS: 'PILLARS', 
   ETHICAL_USE: 'ETHICAL_USE', 
   AI_PROTOCOL: 'AI_PROTOCOL', 
-  TOOLS: 'TOOLS' 
+  TOOLS: 'TOOLS',
+  AI_ASSISTANT: 'AI_ASSISTANT'
 };
 
+// --- Constants ---
 const driveLink = "https://drive.google.com/drive/folders/1JwplS15rtJyk8Eq3BAV-0xvjuhjBD1id?usp=sharing";
 const certificationsLink = "https://edu.google.com/intl/ALL_us/learning-center/certifications/";
 const logoUrl = "https://drive.google.com/thumbnail?id=1Uxyl8RlVy9N8BqNthfBZzLNa9GgDMD-l&sz=w400";
+
+// --- Components ---
 
 const Navigation = ({ currentTab, setTab }: { currentTab: string, setTab: (t: string) => void }) => {
   const navItems = [
@@ -26,7 +33,8 @@ const Navigation = ({ currentTab, setTab }: { currentTab: string, setTab: (t: st
     { id: TabView.PILLARS, label: '3 Pillars', icon: Shield },
     { id: TabView.ETHICAL_USE, label: 'Ethical Use', icon: Scale },
     { id: TabView.AI_PROTOCOL, label: 'Protocol', icon: Rocket },
-    { id: TabView.TOOLS, label: 'Tools', icon: BrainCircuit }
+    { id: TabView.TOOLS, label: 'Tools', icon: BrainCircuit },
+    { id: TabView.AI_ASSISTANT, label: 'AI Pilot', icon: Sparkles }
   ];
 
   return (
@@ -58,6 +66,89 @@ const Navigation = ({ currentTab, setTab }: { currentTab: string, setTab: (t: st
   );
 };
 
+const LessonScaffolder = () => {
+  const [subject, setSubject] = useState('');
+  const [topic, setTopic] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
+
+  const generatePlan = async () => {
+    if (!subject || !topic) return;
+    setLoading(true);
+    setResult(null);
+
+    try {
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const response = await ai.models.generateContent({
+        model: 'gemini-3-flash-preview',
+        contents: `Create a P.I.L.O.T protocol lesson plan for ${subject} about ${topic}. Focus on how AI can be a co-pilot, not autopilot.`,
+        config: {
+          systemInstruction: "You are an AI integration expert for schools. Create concise, actionable lesson scaffolds for teachers."
+        }
+      });
+      setResult(response.text || "Failed to generate.");
+    } catch (e) {
+      console.error(e);
+      setResult("Error generating content. Please check your API key and try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="bg-white rounded-3xl shadow-xl border p-8">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="p-3 bg-pilot-blue text-white rounded-2xl shadow-lg">
+            <Sparkles size={24} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">AI Lesson Scaffolder</h2>
+            <p className="text-gray-500 text-sm italic">Gemini-powered P.I.L.O.T planning</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div>
+            <label className="block text-xs font-bold text-gray-400 uppercase mb-1 ml-1">Subject</label>
+            <input 
+              value={subject} 
+              onChange={e => setSubject(e.target.value)}
+              placeholder="e.g. 10th Grade History" 
+              className="w-full bg-slate-50 border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-pilot-blue/20 transition-all"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-gray-400 uppercase mb-1 ml-1">Topic</label>
+            <input 
+              value={topic} 
+              onChange={e => setTopic(e.target.value)}
+              placeholder="e.g. Causes of the Cold War" 
+              className="w-full bg-slate-50 border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-pilot-blue/20 transition-all"
+            />
+          </div>
+        </div>
+
+        <button 
+          onClick={generatePlan}
+          disabled={loading || !subject || !topic}
+          className="w-full bg-pilot-blue text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-700 transition-all shadow-lg disabled:opacity-50"
+        >
+          {loading ? <Loader2 className="animate-spin" /> : <Send size={20} />}
+          {loading ? 'Consulting Gemini...' : 'Generate P.I.L.O.T. Lesson'}
+        </button>
+
+        {result && (
+          <div className="mt-8 p-6 bg-slate-50 border rounded-2xl animate-fadeIn whitespace-pre-wrap text-gray-700 leading-relaxed font-sans">
+            <h4 className="font-bold text-pilot-blue mb-4 border-b pb-2">Scaffolded Flight Plan</h4>
+            {result}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const App = () => {
   const [currentTab, setCurrentTab] = useState(TabView.HOME);
 
@@ -66,18 +157,22 @@ const App = () => {
       case TabView.PILLARS:
         return (
           <div className="max-w-7xl mx-auto px-4 py-12 animate-fadeIn">
-            <h2 className="text-4xl font-display font-bold text-center mb-16">The 3 Pillars for Success</h2>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-display font-bold text-gray-900 mb-4">The 3 Pillars for Success</h2>
+              <p className="text-gray-500 text-lg">Foundation for a future where AI is a standard tool.</p>
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
                <div className="space-y-4">
                   <h3 className="text-xl font-bold text-center uppercase tracking-tight flex items-center justify-center gap-2 text-pilot-blue"><School size={20}/> Educator Framework</h3>
-                  <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-100 bg-white group">
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-100 bg-white group">
                     <img src="https://drive.google.com/thumbnail?id=1iMZAtETmezwwOlm9rQdD-Y0lGpvGhedg&sz=w1200" className="w-full transition-transform group-hover:scale-[1.02]" alt="Educator Framework" />
                     <a href="https://drive.google.com/file/d/1iMZAtETmezwwOlm9rQdD-Y0lGpvGhedg/view" target="_blank" className="absolute bottom-4 right-4 bg-white/90 px-3 py-1 rounded text-xs font-bold text-gray-700 flex items-center gap-1 shadow-sm hover:bg-white transition-colors">Open High-Res <ExternalLink size={12}/></a>
                   </div>
                </div>
                <div className="space-y-4">
                   <h3 className="text-xl font-bold text-center uppercase tracking-tight flex items-center justify-center gap-2 text-pilot-purple"><GraduationCap size={20}/> Student Guide</h3>
-                  <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-100 bg-white group">
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-100 bg-white group">
                     <img src="https://drive.google.com/thumbnail?id=10N5NxD9Mc_6aWbB5WcUtB4yltRuy2YHh&sz=w1200" className="w-full transition-transform group-hover:scale-[1.02]" alt="Student Guide" />
                     <a href="https://drive.google.com/file/d/10N5NxD9Mc_6aWbB5WcUtB4yltRuy2YHh/view" target="_blank" className="absolute bottom-4 right-4 bg-white/90 px-3 py-1 rounded text-xs font-bold text-gray-700 flex items-center gap-1 shadow-sm hover:bg-white transition-colors">Open High-Res <ExternalLink size={12}/></a>
                   </div>
@@ -120,13 +215,13 @@ const App = () => {
       case TabView.ETHICAL_USE:
         return (
           <div className="max-w-5xl mx-auto px-4 py-12 animate-fadeIn">
-             <div className="bg-pilot-blue rounded-3xl p-10 text-center text-white shadow-xl mb-16 relative overflow-hidden">
+             <div className="bg-pilot-blue rounded-3xl p-12 text-center text-white shadow-xl mb-16 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-1 bg-white/20"></div>
                 <h2 className="text-4xl font-display font-bold uppercase mb-4 tracking-tight">Ethical AI Mastery</h2>
                 <p className="text-blue-100 text-xl font-medium max-w-2xl mx-auto">"Play Smart, Don't Cheat." Setting the gold standard for classroom integrity.</p>
              </div>
              
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16 px-4">
                 {[
                   { id: '1q7ZLXz_B1QVr0CbWnGNUvZt8lzxNnDlD', title: 'Teacher Policy Guide', label: 'Download Teacher Guide' },
                   { id: '1x-ygYvKLprseRXqvQEs7VJelB4DDRU-9', title: 'Student AI Checklist', label: 'Download Checklist' }
@@ -141,27 +236,6 @@ const App = () => {
                      </a>
                   </div>
                 ))}
-             </div>
-
-             <div className="bg-white rounded-3xl p-10 shadow-xl border border-blue-100">
-                <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-pilot-blue">
-                  <ClipboardCheck size={28} /> Ethical Mastery Checklist
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {[
-                    { t: 'Credit the Assist', d: 'Always cite AI as a contributor.', icon: UserCheck },
-                    { t: 'Verify Facts', d: 'Check AI output for accuracy.', icon: Search },
-                    { t: 'Own the Results', d: 'Final work must be your voice.', icon: PenTool }
-                  ].map((check, i) => (
-                    <div key={i} className="flex flex-col items-center text-center p-4 bg-slate-50 rounded-2xl">
-                      <div className="bg-white p-3 rounded-full shadow-sm text-pilot-blue mb-4">
-                        <check.icon size={32} />
-                      </div>
-                      <h4 className="font-bold text-gray-900 mb-2">{check.t}</h4>
-                      <p className="text-sm text-gray-600">{check.d}</p>
-                    </div>
-                  ))}
-                </div>
              </div>
           </div>
         );
@@ -241,6 +315,9 @@ const App = () => {
           </div>
         );
 
+      case TabView.AI_ASSISTANT:
+        return <LessonScaffolder />;
+
       default:
         return (
           <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 text-center animate-fadeIn">
@@ -260,14 +337,14 @@ const App = () => {
               </button>
             </div>
             
-            <div className="relative group max-w-5xl mx-auto">
+            <div className="relative group max-w-5xl mx-auto mb-24">
               <div className="absolute -inset-1 bg-gradient-to-r from-pilot-blue to-pilot-purple rounded-[2.5rem] blur-2xl opacity-20 group-hover:opacity-30 transition duration-1000"></div>
               <div className="relative aspect-video rounded-[2rem] overflow-hidden shadow-2xl border-[12px] border-white bg-gray-900">
                 <iframe className="w-full h-full" src="https://www.youtube.com/embed/5VJj9hkUQe4" title="AI Video" frameBorder="0" allowFullScreen></iframe>
               </div>
             </div>
 
-            <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                {[
                  { t: 'Safety First', d: 'Ethical use and transparency are our foundation.', i: ShieldCheck, c: 'text-blue-600' },
                  { t: 'Equal Access', i: Users, d: 'Bridging the digital divide for every learner.', c: 'text-amber-500' },
