@@ -39,22 +39,11 @@
         to { opacity: 1; transform: translateY(0); }
       }
       .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
-      #error-boundary-ui { 
+      #error-ui { 
         display: none; position: fixed; inset: 0; background: #fff; z-index: 9999; 
         padding: 2rem; color: #ef4444; font-family: monospace; overflow: auto;
       }
     </style>
-    <script>
-      // Global error catcher to debug Vercel deployment issues
-      window.onerror = function(msg, url, line, col, error) {
-        console.error(error);
-        const ui = document.getElementById('error-boundary-ui');
-        if (ui) {
-          ui.style.display = 'block';
-          ui.innerHTML = `<h1>Application Error</h1><p>${msg}</p><pre>${error ? error.stack : ''}</pre>`;
-        }
-      };
-    </script>
     <script type="importmap">
 {
   "imports": {
@@ -71,8 +60,17 @@
 </script>
 </head>
 <body>
-    <div id="error-boundary-ui"></div>
+    <div id="error-ui"></div>
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        const ui = document.getElementById('error-ui');
+        if (ui) {
+          ui.style.display = 'block';
+          ui.innerHTML = `<h1>Critical Error</h1><p>${msg}</p><pre>${error ? error.stack : ''}</pre>`;
+        }
+      };
+    </script>
 </body>
 </html>
